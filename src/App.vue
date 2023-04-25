@@ -2,9 +2,10 @@
   <div class="app">
     <div v-if="showLeftNav" class="LeftNavbackground" @click="closeLeftNav"></div>
     <app-nav></app-nav>
-    <store-title></store-title>
-    <slide-show v-if="showSlide"></slide-show>
-    <category-title @click="changeCategory"></category-title>
+    <div class="baseline"></div>
+    <store-title class="basediv"></store-title>
+    <slide-show v-if="showSlide && !ShowCategoryNavBar"></slide-show>
+    <category-title v-if="!ShowCategoryNavBar" @click="changeCategory"></category-title>
     <transition name="leftnav">
       <left-nav v-if="showLeftNav" class="left-nav"></left-nav>
     </transition>
@@ -14,7 +15,7 @@
     <router-view></router-view>
 
     <page-footer></page-footer>
-    <go-up></go-up>
+    <go-up class="GoUpBtn hidden"></go-up>
   </div>
 </template>
 
@@ -39,6 +40,9 @@ export default {
     return {};
   },
   computed: {
+    ShowCategoryNavBar() {
+      return this.$store.getters.getWannaLoginBoolean;
+    },
     showLeftNav() {
       return this.$store.getters.getLeftNavBoolean;
     },
@@ -67,20 +71,26 @@ export default {
   mounted() {
     // const GoUpObserver = new IntersectionObserver();
     ////////////////////////////////////////////////
-    // const observerOption = {
-    //   root: null,
-    //   threshold: 0.6,
-    // };
-    // const BacktoTopObserver = new IntersectionObserver(function (info) {
-    //   const result = info[0].isIntersecting.toString();
-    //   if (result === "false") {
-    //     BackTopBtn.classList.remove("hidden");
-    //   } else {
-    //     BackTopBtn.classList.add("hidden");
-    //   }
-    // }, observerOption);
-    // BacktoTopObserver.observe(navBarBaseline);
+    const basediv = document.querySelector(".basediv");
+    const GoUpBtn = document.querySelector(".GoUpBtn");
+    // console.log(basediv, GoUpBtn);
+    const observerOption = {
+      root: null,
+      threshold: 0.6,
+    };
+    const BacktoTopObserver = new IntersectionObserver(function (info) {
+      // console.log(info);
+      if (!info[0].isIntersecting) {
+        GoUpBtn.classList.remove("hidden");
+      } else {
+        GoUpBtn.classList.add("hidden");
+      }
+    }, observerOption);
+    BacktoTopObserver.observe(basediv);
     ///////////////////////////////////////////////
+  },
+  unmounted() {
+    // BacktoTopObserver.unobserve(basediv)
   },
 };
 </script>
@@ -116,5 +126,9 @@ export default {
 .leftnav-enter-active,
 .leftnav-leave-active {
   transition: all 0.75s;
+}
+
+.hidden {
+  display: none;
 }
 </style>

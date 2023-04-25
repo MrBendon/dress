@@ -6,6 +6,7 @@ import store from "./store";
 import BaseItemCard from "./components/UI/BaseItemCard.vue";
 import PageFooter from "./components/UI/PageFooter.vue";
 import GoUp from "./components/UI/GoToTop.vue";
+import AddMessage from "./components/UI/AddMessage.vue";
 // import BuyCartPage from "./components/pages/BuyCartPage.vue";
 
 const app = createApp(App);
@@ -13,6 +14,7 @@ const app = createApp(App);
 app.component("base-item-card", BaseItemCard);
 app.component("page-footer", PageFooter);
 app.component("go-up", GoUp);
+app.component("add-message", AddMessage);
 // app.component("buy-cart-page", BuyCartPage);
 
 app.use(store);

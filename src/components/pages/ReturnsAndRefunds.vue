@@ -12,8 +12,8 @@
       </p>
       <div class="title">聯繫方式</div>
       <p class="text">
-        官方ＬＩＮＥ：＠dress.18<br />
-        私訊IＧ：dress.e
+        官方ＬＩＮＥ：＠xxxxxxx<br />
+        私訊IＧ：xxxxxxx
       </p>
       <div class="title">退換貨流程</div>
       <p class="text">

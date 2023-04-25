@@ -10,6 +10,7 @@
 export default {
   computed: {
     CountItemNum() {
+      if (!this.$store.getters.getLoginId) return 0;
       if (this.$store.getters["membersData/queryMyBuyCart"].length === 0) {
         return 0;
       } else {
@@ -26,6 +27,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/css/base/variables";
+@import "../../assets/css/base/mixins";
+
 .buycartBox,
 a {
   position: relative;
@@ -40,6 +43,7 @@ a {
   align-items: center;
   text-decoration: none;
   cursor: pointer;
+
   &:link,
   &:active,
   &:visited {

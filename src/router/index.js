@@ -7,11 +7,16 @@ import ReturnsAndRefunds from "../components/pages/ReturnsAndRefunds.vue";
 import PaymentAndDelivery from "../components/pages/PaymentAndDelivery.vue";
 import BuyCartPage from "../components/pages/BuyCartPage.vue";
 import ItemPage from "../components/pages/ItemPage.vue";
+import LoginPage from "../components/pages/LoginPage.vue";
 
 const routes = [
   {
     path: "/",
     component: MainPage,
+  },
+  {
+    path: "/login",
+    component: LoginPage,
   },
   {
     path: "/about",

@@ -6,6 +6,7 @@
 
 <style lang="scss" scoped>
 @import "../../assets/css/base/variables";
+@import "../../assets/css/base/mixins";
 .LoginButton {
   width: 15rem;
   height: 4rem;
@@ -15,6 +16,10 @@
   align-items: center;
   justify-content: center;
   font-weight: 200;
+
+  @include SmallViewPort {
+    width: 10rem;
+  }
 
   &:hover {
     color: white;

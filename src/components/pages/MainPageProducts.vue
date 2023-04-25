@@ -3,6 +3,10 @@
     <div class="map">首頁 > {{ getfilterName }}</div>
   </div>
   <div class="container">
+    <div v-if="ShowCategoryItem.length === 0" class="emtpyBox">
+      <div class="title">目前此分類上沒有商品</div>
+      <div @click="gotoHomepage" class="goToHomepage">回首頁</div>
+    </div>
     <base-item-card v-for="item in ShowCategoryItem" :key="item.id" :item="item"></base-item-card>
   </div>
   <div class="pageBox">
@@ -88,6 +92,10 @@ export default {
     },
   },
   methods: {
+    gotoHomepage() {
+      this.$store.dispatch("changeFilterName", "All");
+      this.$router.push("/");
+    },
     gotoPage(PageNum) {
       this.nowPage = PageNum;
     },
@@ -97,17 +105,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/base/mixins";
 .UpperBox {
   width: 70%;
   margin: 1rem auto 1rem auto;
   min-height: 5rem;
   display: flex;
   justify-content: space-between;
-  // background-color: grey;
   align-items: center;
   font-size: 2.5rem;
-  // padding: 0 2rem;
-  //   color: grey;
+
   font-weight: 300;
 }
 
@@ -121,10 +128,45 @@ export default {
 .container {
   margin: 0rem auto;
   width: 70%;
-  min-height: 100vh;
+  min-height: 50vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  //   background-color: blue;
+
+  @include SmallViewPort {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include ViewPort-1024 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @include ViewPort-1920 {
+    grid-row-gap: 6rem;
+    // margin: 5rem auto;
+  }
+}
+
+.emtpyBox {
+  width: 100%;
+  grid-column: 1 / 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  color: grey;
+  font-weight: 200;
+  flex-direction: column;
+}
+.goToHomepage {
+  margin-top: 5rem;
+  width: 20rem;
+  background-color: grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(183, 183, 183);
+  }
 }
 
 .pageBox {
@@ -136,6 +178,10 @@ export default {
   margin: 3rem auto;
   //   cursor: pointer;
   //   background-color: rgb(214, 214, 214);
+  @include ViewPort-1920 {
+    margin: 10rem auto 3rem auto;
+    // margin: 5rem auto;
+  }
 }
 
 .pageNum {

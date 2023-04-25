@@ -3,9 +3,9 @@
     <div class="textBox">
       <div class="title">關於我們</div>
 
-      <p class="text">公司名稱：阿誇服飾</p>
-      <p class="text">統一編號：12345678</p>
-      <p class="text">地址：台中市西區ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ</p>
+      <p class="text">公司名稱：ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ</p>
+      <p class="text">統一編號：ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ</p>
+      <p class="text">地址：台中市西屯區ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ</p>
     </div>
   </div>
 </template>

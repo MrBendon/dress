@@ -41,12 +41,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/css/base/variables";
+@import "../../assets/css/base/mixins";
 .categoryBox {
   position: sticky;
   top: 8vh;
   width: 100%;
   background-color: rgb(239, 239, 239);
   z-index: 100;
+
+  @include SmallViewPort {
+    display: none;
+  }
+
+  @include iPad {
+    display: block;
+  }
 }
 .categoryList {
   list-style: none;
@@ -58,6 +67,15 @@ export default {
   grid-row-gap: 1rem;
   font-size: 3rem;
   font-weight: 300;
+  @include iPad {
+    font-size: 1.75rem;
+  }
+  @include ViewPort-1024 {
+    font-size: 2.5rem;
+  }
+  @include ViewPort-1280 {
+    font-size: 3rem;
+  }
 }
 
 .item {
@@ -65,6 +83,15 @@ export default {
   height: 3.5rem;
   padding: 0.3rem 0;
   text-align: center;
+  @include iPad {
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  @include ViewPort-1024 {
+    height: 3.5rem;
+  }
   &:hover {
     color: white;
     background-color: $background-color-dark-grey;

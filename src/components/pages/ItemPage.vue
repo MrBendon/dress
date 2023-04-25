@@ -2,14 +2,31 @@
   <div class="UpperBox">
     <div class="map">首頁 > {{ getItemData.category }} > {{ getItemData.id }}</div>
   </div>
+  <add-message>
+    <template #title> 已完成加入 </template>
+    <template #message> 已加入購物車，可前往購物車查看 </template>
+  </add-message>
   <div class="container">
     <div class="leftBox">
       <div class="mainImgViewPort">
-        <img :src="require(`../../assets/img/products/${getItemData.id}.webp`)" alt="" />
+        <template v-for="(imgSrc, index) in getItemDataPicListArray" :key="index">
+          <!-- <img :src="require(`../../assets/img/products/${getItemData.id}.webp`)" alt="" /> -->
+          <img
+            v-show="index + 1 === showImg"
+            :src="require(`../../assets/img/products/${imgSrc}.webp`)"
+            alt=""
+          />
+        </template>
+        <div v-if="ImgMoreTheOne" class="rightBtn Btn" @click="goRight">→</div>
+        <div v-if="ImgMoreTheOne" class="leftBtn Btn" @click="goLeft">←</div>
       </div>
       <div class="imgListBox">
         <template v-for="(imgSrc, index) in getItemDataPicListArray" :key="index">
-          <img :src="require(`../../assets/img/products/${imgSrc}.webp`)" alt="" />
+          <img
+            :src="require(`../../assets/img/products/${imgSrc}.webp`)"
+            alt=""
+            @click="goTheImg(index + 1)"
+          />
         </template>
       </div>
     </div>
@@ -43,6 +60,8 @@
           <label class="color__choose" :for="color">{{ color }}</label>
         </template>
       </div>
+      <div v-if="!PassValidation && !itemGoBuy.PickColor" class="colorValidationBox">請點選您想要的顏色</div>
+      <div v-else class="colorValidationBox"></div>
       <div class="sizeBox">
         <div class="size__title">尺寸</div>
         <template v-for="size in getItemData.size" :key="size">
@@ -56,6 +75,8 @@
           /><label class="size__choose" :for="size">{{ size }}</label>
         </template>
       </div>
+      <div v-if="!PassValidation && !itemGoBuy.PickSize" class="sizeValidationBox">請點選您想要的尺寸</div>
+      <div v-else class="sizeValidationBox"></div>
       <div class="quantityBox">
         <div class="quantity__title">數量</div>
         <div class="quantity__choose">
@@ -87,9 +108,18 @@ export default {
         PickSize: "",
         PickQuantity: 1,
       },
+      isGoRight: false,
+      moveTo: 1,
+      PassValidation: true,
     };
   },
   computed: {
+    ImgMoreTheOne() {
+      return this.$store.getters.getNowClickItem.src.length > 1 ? true : false;
+    },
+    showImg() {
+      return this.moveTo;
+    },
     getfilterName() {
       return this.$store.getters.getNowFilterName;
     },
@@ -108,16 +138,26 @@ export default {
     },
   },
   methods: {
-    init() {},
-    validation() {
+    showMessageBox() {
+      this.$store.dispatch("setShowMessage", true);
+    },
+
+    ValidationCheck() {
       if (!this.itemGoBuy.PickColor || !this.itemGoBuy.PickSize) {
+        console.log(this.itemGoBuy.PickColor);
+        console.log(this.itemGoBuy.PickSize);
         console.log("請選擇 顏色 與 尺寸");
+        this.PassValidation = false;
         return false;
+      } else {
+        this.PassValidation = true;
+        return true;
       }
-      return true;
     },
     addToBuyCart() {
-      if (!this.validation) return;
+      this.ValidationCheck();
+      if (!this.PassValidation) return;
+
       const item = this.$store.getters.getNowClickItem;
       this.itemGoBuy.PickId = item.id;
       this.itemGoBuy.PickName = item.description;
@@ -136,6 +176,7 @@ export default {
         quantity: +this.itemGoBuy.PickQuantity,
       };
       console.log(newObj);
+      this.$store.dispatch("setShowMessage", true);
       this.$store.dispatch("membersData/AddItemToMyBuyCart", newObj);
     },
     AddItemToMytracking(id) {
@@ -143,6 +184,36 @@ export default {
     },
     removeItemFromMytracking(id) {
       this.$store.dispatch("membersData/RemoveItemFromMyTracking", id);
+    },
+    goRight() {
+      const item = this.$store.getters.getNowClickItem;
+      const ImgQuantity = item.src.length;
+      if (this.moveTo < ImgQuantity) {
+        this.moveTo++;
+        this.isGoRight = true;
+      } else {
+        this.moveTo = 1;
+        this.isGoRight = false;
+      }
+    },
+    goLeft() {
+      const item = this.$store.getters.getNowClickItem;
+      const ImgQuantity = item.src.length;
+      if (this.moveTo === 1) {
+        this.moveTo = ImgQuantity;
+        this.isGoRight = true;
+      } else {
+        this.moveTo--;
+        this.isGoRight = false;
+      }
+    },
+    goTheImg(Num) {
+      if (Num > this.moveTo) {
+        this.isGoRight = true;
+      } else {
+        this.isGoRight = false;
+      }
+      this.moveTo = Num;
     },
   },
   mounted() {
@@ -155,6 +226,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/base/mixins";
 .UpperBox {
   width: 70%;
   margin: 2rem auto;
@@ -180,22 +252,106 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-self: center;
+
+  @include SmallViewPort {
+    flex-direction: column;
+    width: 85%;
+  }
+  @include iPad {
+    flex-direction: row;
+    width: 85%;
+  }
+  @include ViewPort-1024 {
+    width: 75%;
+  }
+  @include ViewPort-1440 {
+    width: 70%;
+  }
 }
 
-.left {
-  width: 40%;
-  //   padding: 2rem;
-  background-color: green;
+.leftBox {
+  width: 35%;
+  @include SmallViewPort {
+    width: 100%;
+  }
+  @include iPad {
+    width: 55%;
+  }
+  @include ViewPort-1440 {
+    width: 50%;
+  }
 }
 .mainImgViewPort {
   //   width: 85%;
-  max-height: 500px;
+  max-width: 360px;
+  max-height: 550px;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  position: relative;
+  @include SmallViewPort {
+    margin: 0 auto;
+  }
+  @include ViewPort-1440 {
+    max-width: 400px;
+  }
+
   & > img {
     // width: 100%;
-    padding: 0 1rem;
-    max-height: 50rem;
-    cursor: zoom-in;
+    // padding: 0 1rem;
+    max-height: 55rem;
+    // cursor: zoom-in;
+    filter: blur(10px);
+    @include SmallViewPort {
+      max-width: 360px;
+    }
+    @include iPad {
+      max-width: 370px;
+      max-height: 55rem;
+    }
+    @include ViewPort-1440 {
+      max-width: 400px;
+    }
   }
+}
+
+.Btn {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  background-color: rgba(128, 128, 128, 0.2);
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.15s;
+  @include SmallViewPort {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 2.5rem;
+  }
+  @include iPad {
+    width: 4rem;
+    height: 4rem;
+    font-size: 3rem;
+  }
+
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: rgba(128, 128, 128, 0.8);
+  }
+}
+
+.rightBtn {
+  right: 1rem;
+}
+.leftBtn {
+  left: 1rem;
 }
 
 .imgListBox {
@@ -203,10 +359,23 @@ export default {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 
+  @include SmallViewPort {
+    display: grid;
+    max-width: 360px;
+    margin: 0 auto;
+    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include ViewPort-1440 {
+    max-width: 400px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   & > img {
     max-height: 120px;
     padding: 1rem;
     cursor: pointer;
+    filter: blur(3px);
   }
 }
 
@@ -219,6 +388,14 @@ export default {
   flex-direction: column;
   align-items: start;
   font-weight: 200;
+  @include SmallViewPort {
+    padding: 2rem 0.5rem;
+    margin-left: 0%;
+    width: 100%;
+  }
+  @include iPad {
+    width: 40%;
+  }
 }
 .ItemTitle {
   width: 100%;
@@ -315,6 +492,14 @@ select {
   font-size: 1.5rem;
   width: 20rem;
   height: 3rem;
+}
+
+.colorValidationBox,
+.sizeValidationBox {
+  color: rgb(163, 15, 15);
+  font-size: 1.25rem;
+  font-weight: 400;
+  padding-left: 10rem;
 }
 
 .joinbuycart {

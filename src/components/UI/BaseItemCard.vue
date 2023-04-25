@@ -57,6 +57,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/base/mixins";
 .ItemCard {
   width: 100%;
   max-height: 48rem;
@@ -66,6 +67,7 @@ export default {
   //   justify-content: space-between;
   transition: all 0.25s ease-in-out;
   cursor: pointer;
+
   &:hover {
     background-color: rgb(242, 240, 240);
     transform: translateY(-5px);
@@ -80,7 +82,6 @@ export default {
   margin: 1.5rem auto 0rem auto;
   width: 90%;
   position: relative;
-  //   height: 40rem;
 }
 .imgViewPort > img {
   max-width: 100%;
@@ -100,15 +101,6 @@ export default {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  //   cursor: pointer;
-  // transition: all 0.25s ease-in-out;
-  // &:hover {
-  //   transform: translateY(-3px);
-  //   filter: invert(0.5);
-  // }
-  // &:active {
-  //   transform: translateY(2px);
-  // }
 }
 
 .text {
