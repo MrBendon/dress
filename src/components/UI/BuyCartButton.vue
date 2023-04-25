@@ -10,7 +10,7 @@
 export default {
   computed: {
     CountItemNum() {
-      if (!this.$store.getters.getLoginId) return 0;
+      // if (!this.$store.getters.getLoginId) return 0;
       if (this.$store.getters["membersData/queryMyBuyCart"].length === 0) {
         return 0;
       } else {

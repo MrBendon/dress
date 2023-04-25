@@ -1,7 +1,7 @@
 <template>
   <div class="titleBox">
     <div class="blank">blank</div>
-    <div class="title"><router-link to="/" @click="showSlide"> Dress.E </router-link></div>
+    <div class="title"><router-link to="/" @click="showSlide"> Dress.J </router-link></div>
   </div>
 </template>
 

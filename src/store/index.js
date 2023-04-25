@@ -12,6 +12,7 @@ export default createStore({
       isShowLeftNav: false,
       wannaLogin: false,
       isShowMessage: false,
+      GoFirstPage: 1,
     };
   },
   actions: {
@@ -81,6 +82,9 @@ export default createStore({
     },
     getWannaLoginBoolean(state) {
       return state.wannaLogin;
+    },
+    getGoFirstPage(state) {
+      return state.GoFirstPage;
     },
   },
 });

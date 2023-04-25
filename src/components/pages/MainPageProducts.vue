@@ -31,6 +31,12 @@ export default {
       eachPageShowItemNum: 8,
     };
   },
+  watch: {
+    getfilterName: function () {
+      // console.log(this.nowPage);
+      this.nowPage = 1;
+    },
+  },
   computed: {
     getAllProducts() {
       return this.$store.getters["Products/getProducts"];

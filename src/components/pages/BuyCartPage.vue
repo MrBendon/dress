@@ -30,21 +30,9 @@
           </div>
           <div class="singleprice">NT ${{ item.price }}</div>
           <div class="select">
-            <div
-              class="minus"
-              @click="minusOneQuantity(item.id, item.color, item.size, 1)"
-              @touchend="minusOneQuantity(item.id, item.color, item.size, 1)"
-            >
-              -
-            </div>
+            <div class="minus" @click="minusOneQuantity(item.id, item.color, item.size, 1)">-</div>
             <span class="quantity"> {{ item.quantity }}</span>
-            <div
-              class="plus"
-              @click="plusOneQuantity(item.id, item.color, item.size, 1)"
-              @touchend="plusOneQuantity(item.id, item.color, item.size, 1)"
-            >
-              +
-            </div>
+            <div class="plus" @click="plusOneQuantity(item.id, item.color, item.size, 1)">+</div>
           </div>
           <div class="itemTotal">NT ${{ item.price * item.quantity }}</div>
         </li>

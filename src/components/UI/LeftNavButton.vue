@@ -1,5 +1,5 @@
 <template>
-  <div class="buttonBox" @click="showLeftNav" @touchend="showLeftNav">
+  <div class="buttonBox" @click="showLeftNav">
     <div class="left-nav-button"></div>
   </div>
 </template>

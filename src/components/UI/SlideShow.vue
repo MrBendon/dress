@@ -50,13 +50,9 @@ export default {
         this.goRight();
       }, 3000);
     },
-    stopSlide() {
-      //   console.log(this.timer());
-      //   clearInterval(this.timer());
-      //   console.log("clear");
-    },
+    stopSlide() {},
     goRight() {
-      if (this.moveTo < 4) {
+      if (this.moveTo < this.imgdata.length) {
         this.moveTo++;
         this.isGoRight = true;
       } else {
@@ -66,7 +62,7 @@ export default {
     },
     goLeft() {
       if (this.moveTo === 1) {
-        this.moveTo = 4;
+        this.moveTo = this.imgdata.length;
         this.isGoRight = true;
       } else {
         this.moveTo--;

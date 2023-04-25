@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     closeLeftNav(e) {
-      console.log(e.target.getAttribute("class"));
+      // console.log(e.target.getAttribute("class"));
       const className = e.target.getAttribute("class");
       if (className.includes("buttonBox") || className.includes("left")) return;
       this.$store.dispatch("toggleLeftNav", false);
@@ -64,7 +64,7 @@ export default {
     changeCategory(e) {
       if (!e.target.getAttribute("dataName")) return;
       const categoryName = e.target.getAttribute("dataName");
-      console.log(categoryName);
+      // console.log(categoryName);
       this.$store.dispatch("changeFilterName", categoryName);
     },
   },

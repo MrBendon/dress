@@ -47,7 +47,7 @@ export default {
   },
   mounted() {
     this.itemData = this.item;
-    console.log(this.itemData);
+    // console.log(this.itemData);
     // this.$store.dispatch("changeFilterName", "");
   },
   unmounted() {
